@@ -1,6 +1,3 @@
-import type { Metadata } from "next";
-import "./globals.css";
-export const metadata: Metadata = { title: "GEKIAN | Women's Fashion", description: "Shop the GEKIAN women's fashion collection." };
-export default function RootLayout({children}:{children:React.ReactNode}) {
- return <html lang="en"><body>{children}</body></html>;
-}
+import type {Metadata} from "next";import "./globals.css";import {StoreProvider} from "@/components/store-provider";import {Header} from "@/components/header";import {Footer} from "@/components/footer";import {Cart} from "@/components/cart";
+export const metadata:Metadata={title:"GEKIAN | Modern Womenswear",description:"A modern, refined women's boutique featuring products from our live catalog."};
+export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="en"><body className="font-sans"><StoreProvider><Header/>{children}<Footer/><Cart/></StoreProvider></body></html>}
