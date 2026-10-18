@@ -1,0 +1,22 @@
+# Firebase web app configuration is public and safe to include in the client bundle.
+# These NEXT_PUBLIC_ variables must be present at BUILD time for Next.js.
+# Never put AliExpress secrets, refresh tokens, or admin credentials here.
+env:
+  - variable: NEXT_PUBLIC_FIREBASE_API_KEY
+    value: "AIzaSyD3edrw9rTUfYfEQC1Vsu5kshMjk5W08so"
+    availability: [BUILD, RUNTIME]
+  - variable: NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
+    value: "gekain.firebaseapp.com"
+    availability: [BUILD, RUNTIME]
+  - variable: NEXT_PUBLIC_FIREBASE_PROJECT_ID
+    value: "gekain"
+    availability: [BUILD, RUNTIME]
+  - variable: NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
+    value: "gekain.firebasestorage.app"
+    availability: [BUILD, RUNTIME]
+  - variable: NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
+    value: "178430229528"
+    availability: [BUILD, RUNTIME]
+  - variable: NEXT_PUBLIC_FIREBASE_APP_ID
+    value: "1:178430229528:web:b104b2d79423ae1dc4576d"
+    availability: [BUILD, RUNTIME]
