@@ -1,5 +1,5 @@
 import { collection, doc, getDoc, getDocs, query, where, type DocumentData } from "firebase/firestore";
-import { db } from "./firebase";
+import { getClientDb } from "./firebase";
 
 export type StoreProduct = {
   id: string;
@@ -45,11 +45,11 @@ export function normalizeProduct(id: string, data: DocumentData): StoreProduct {
   };
 }
 export async function getStagedProducts(): Promise<StoreProduct[]> {
-  const snapshot = await getDocs(query(collection(db, "products"), where("status", "==", "staged")));
+  const snapshot = await getDocs(query(collection(getClientDb(), "products"), where("status", "==", "staged")));
   return snapshot.docs.map(record => normalizeProduct(record.id, record.data())).sort((a,b) => a.title.localeCompare(b.title));
 }
 export async function getProduct(id: string): Promise<StoreProduct | null> {
-  const snapshot = await getDoc(doc(db, "products", id));
+  const snapshot = await getDoc(doc(getClientDb(), "products", id));
   if (!snapshot.exists() || snapshot.data().status !== "staged") return null;
   return normalizeProduct(snapshot.id, snapshot.data());
 }
