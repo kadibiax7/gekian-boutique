@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root { color-scheme: light; }
+body { margin:0; background:#fbf8f4; color:#28221e; font-family:Arial,Helvetica,sans-serif; }
+a { text-decoration:none; }
+button,input,select {font:inherit;}
+button:disabled { opacity:.55; cursor:not-allowed;}
