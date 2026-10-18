@@ -45,7 +45,7 @@ Example (integrate with your existing rules, preserving any other required restr
 ```
 match /products/{productId} {
   allow get: if resource.data.status == "staged";
-  allow list: if request.query.limit <= 100 && resource.data.status == "staged";
+  allow list: if resource.data.status == "staged";
   allow write: if false;
 }
 match /admins/{adminId} {
@@ -53,6 +53,6 @@ match /admins/{adminId} {
 }
 ```
 
-The current `getStagedProducts()` query has no limit, so **do not use the sample list rule verbatim** until the query is changed to include `limit(100)`. Alternatively, use a status-only list rule (`allow list: if resource.data.status == "staged";`) and enforce rate limits and pagination in a backend.
+The current query loads all staged products. Add pagination and query limits before scaling beyond a small catalog. Rules are not billing/rate limits.
 
 This is a functional frontend catalog, not a complete e-commerce checkout. Product image mappings and price fields must be validated against actual Firestore documents; checkout, ordering, authentication, and inventory reconciliation remain unimplemented.
