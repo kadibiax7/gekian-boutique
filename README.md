@@ -1,5 +1,12 @@
 # GEKIAN — Womenswear Storefront Prototype
 
+## Live website
+
+**[Open Gekian Boutique](https://gekian-boutique--gekain.us-central1.hosted.app)**
+
+Use this public address to visit the storefront. The localhost address below is only for running the project on your own computer.
+
+
 A responsive **frontend-only** e-commerce concept built with Next.js App Router, TypeScript, Tailwind CSS, and Lucide icons.
 
 ## Getting started
