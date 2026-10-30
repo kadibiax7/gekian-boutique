@@ -1,0 +1,11 @@
+const {test}=require('node:test');
+const assert=require('node:assert/strict');
+const {parseCart,approvedItem}=require('../.checkout-tests/checkout-validation.js');
+const line={id:'product-1',size:'',color:'',qty:2};
+const data={status:'staged',title:'Dress',price:0.01,checkout:{enabled:true,currency:'USD',unitAmount:2500,stock:3}};
+test('accepts valid cart and discards browser-supplied price',()=>{assert.deepEqual(parseCart([{...line,price:1}]),[line]);assert.equal(approvedItem(data,line).unitAmount,2500)});
+test('rejects empty, excessive, fractional, negative and duplicate quantities',()=>{for(const v of [[],Array(21).fill(line),[{...line,qty:1.5}],[{...line,qty:-1}],[{...line,qty:11}],[line,line]])assert.throws(()=>parseCart(v))});
+test('rejects document path injection and malformed options',()=>{assert.throws(()=>parseCart([{...line,id:'../other'}]));assert.throws(()=>parseCart([{...line,size:{}}]))});
+test('never falls back to supplier or unapproved price',()=>{for(const v of [{...data,checkout:undefined},{...data,checkout:{...data.checkout,enabled:false}},{...data,checkout:{...data.checkout,unitAmount:24.99}},{...data,status:'deleted'}])assert.throws(()=>approvedItem(v,line))});
+test('rejects insufficient stock and unsupported currency',()=>{assert.throws(()=>approvedItem({...data,checkout:{...data.checkout,stock:1}},line));assert.throws(()=>approvedItem({...data,checkout:{...data.checkout,currency:'EUR'}},line))});
+test('validates exact variant and its independent price and stock',()=>{const v={...data,variants:[{}],checkout:{...data.checkout,unitAmount:3000,variants:[{color:'Red',size:'M',unitAmount:3000,stock:2}]}};assert.equal(approvedItem(v,{...line,color:'Red',size:'M'}).unitAmount,3000);assert.throws(()=>approvedItem(v,{...line,color:'Blue',size:'M'}));assert.throws(()=>approvedItem(v,line))});
