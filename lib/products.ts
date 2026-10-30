@@ -24,12 +24,14 @@ function imageUrls(value: unknown): string[] {
 }
 export function normalizeProduct(id: string, data: DocumentData): StoreProduct {
   const pricing = asObject(data.pricing);
+  const checkout = asObject(data.checkout);
+  const approvedPrice = checkout.enabled === true && checkout.currency === "USD" && Number.isSafeInteger(checkout.unitAmount) && Number(checkout.unitAmount) >= 50 ? Number(checkout.unitAmount) / 100 : null;
   const reviews = asObject(data.reviews);
   const candidates = [data.images, data.image_urls, data.imageUrls, data.product_images, data.gallery].flatMap(imageUrls);
   const mainImage = first(data.image, data.image_url, data.thumbnail, data.main_image);
   if (typeof mainImage === "string" && /^https?:\/\//.test(mainImage)) candidates.unshift(mainImage);
   // A supplier cost is never a customer-facing price. Prefer the configured retail/list price.
-  const price = num(first(pricing.list_price, pricing.listPrice, pricing.retail_price, data.list_price, data.retail_price, data.sale_price, data.price, pricing.price_floor, data.price_floor));
+  const price = num(first(approvedPrice, pricing.list_price, pricing.listPrice, pricing.retail_price, data.list_price, data.retail_price, data.sale_price, data.price, pricing.price_floor, data.price_floor));
   return {
     id,
     title: str(first(data.title, data.display_title, data.name, data.product_title)) || "Untitled product",

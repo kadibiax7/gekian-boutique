@@ -20,3 +20,11 @@ env:
   - variable: NEXT_PUBLIC_FIREBASE_APP_ID
     value: "1:178430229528:web:b104b2d79423ae1dc4576d"
     availability: [BUILD, RUNTIME]
+
+  # Reference only; the secret value stays in Google Cloud Secret Manager.
+  - variable: STRIPE_TEST_SECRET_KEY
+    secret: STRIPE_TEST_SECRET_KEY
+    availability: [RUNTIME]
+  - variable: CHECKOUT_ORIGIN
+    value: "https://gekian.com"
+    availability: [RUNTIME]
